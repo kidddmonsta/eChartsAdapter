@@ -5,9 +5,11 @@
     <title>ECharts</title>
     <!-- including ECharts file -->
     <script src="jquery.min.js"></script>
+    <script src="moment.js"></script>
     <script src="dataTool.min.js"></script>
     <script src="echarts.js"></script>
     <script src="echartsAdapter.js"></script>
+    <script src='ecStat.js'></script>
     <link rel="stylesheet" href="css/style.css"/>
     <!-- <script src="echartsAdapter.js"></script>-->
 </head>
@@ -54,13 +56,33 @@
                 xAxis: [
                     {
                         type: 'category',
-                        data: formattedData.xAxis
+                        //name: 'Ось Х',
+                        data: formattedData.xAxis,
+                        axisLine: {
+                            lineStyle: {
+                                type: 'dotted',
+                                color: 'red'
+                            }
+                        }
+                    },
+                    {
+                        type: 'category',
+                        data: formattedData.xAxis,
+                        axisTick: {
+                            alignWithLabel: true
+                        },
+                        axisLine: {
+                            onZero: false,
+                            lineStyle: {
+                                color: 'blue'
+                            }
+                        }
                     }
                 ],
                 yAxis: [
                     {
                         type: 'value',
-                        name: '',
+                        name: 'Ось У',
                         axisLabel: {
                             //align: 'center',
                             formatter: function (a) {
@@ -69,8 +91,30 @@
                                     ? echarts.format.addCommas(+a)
                                     : '';
                             }
+                        },
+                        axisLine: {
+                            lineStyle: {
+                                type: 'dotted',
+                                color: 'green'
+                            }
                         }
-                    }
+                    },
+                    {
+                        type: 'value',
+                        name: 'Ось У2',
+                        min: 0,
+                        max: 1800,
+                        position: 'right',
+                        axisLine: {
+                            lineStyle: {
+                                color: 'orange'
+                            }
+                        },
+                        axisLabel: {
+                            formatter: '{value} заявок'
+                        }
+                    },
+
                 ],
                 dataZoom: [
                     {
@@ -98,6 +142,7 @@
 
             chart.setOption(option);
         });
+
 </script>
 </body>
 </html>

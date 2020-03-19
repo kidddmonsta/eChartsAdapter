@@ -7,23 +7,42 @@ function formatData(jsonUrl) {
         data.forEach(function (dataVal, index) {
             let formattedData = [];
             dataVal.series.forEach(function (val, key) {
-                console.log(val);
+                //console.log(val);
                 formattedData[key] = val.value;
-                xAxis[key] = val.x;
+                if (dataVal.timeInterval == "day") {
+                    xAxis[key] = moment(val.x).format("YYYY-MM-DD");
+                }
+                if (dataVal.timeInterval == "month") {
+                    xAxis[key] = moment(val.x).format("YYYY-MM");
+                }
+                if (dataVal.timeInterval == "year") {
+                    xAxis[key] = moment(val.x).format("YYYY");
+                }
+                if (xAxis[key] == 'Invalid date') {
+                    xAxis[key] = val.x;
+                }
+                //console.log(xAxis);
             });
+            //console.log(dataVal.timeInterval);
             legendDataNames[index] = dataVal.title_rus;
             series[index] = {
                 name: dataVal.title_rus,
-                type: 'bar',
-                data: formattedData
+                data: formattedData,
+                type: 'line',
+                symbol: 'triangle',
+                symbolSize: 20,
+                lineStyle: {
+                    color: 'purple',
+                    type: 'dashed'
+                }
             };
 
         });
         var returnData = {
             legendDataNames: legendDataNames,
             series: series,
-            xAxis: xAxis,
-        }
+            xAxis: xAxis
+        };
         console.log(returnData);
         return returnData;
     });
